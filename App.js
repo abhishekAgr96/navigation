@@ -14,6 +14,7 @@ import {Profile} from './profile'
 import {Dashboard} from './dashboard'
 import {createStackNavigator,createBottomTabNavigator} from 'react-navigation';
 import {Settings} from './settings'
+import {UserList} from './userList'
 
 class tabContainer extends Component{
   render(){
@@ -37,10 +38,10 @@ export default stackNavigation = createStackNavigator({
 
 const TabNavigation=createBottomTabNavigator({
   
-  Dashboard:{screen:Dashboard},
-// UserList:{screen:UserList},
-Profile:{screen:Profile},
-Settings:{screen:Settings},
+ // Dashboard:{screen:Dashboard},
+ UserList:{screen:UserList},
+ Profile:{screen:Profile},
+ //Settings:{screen:Settings},
  })
 
 //export default tabNavigation;
