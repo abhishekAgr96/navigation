@@ -8,12 +8,14 @@ export class UserList extends Component {
     this.Array_Items=require('./content.json');
     this.state={
         token:'',
-        myJson:[]
+        myJson:[],
+        pageNo:1,
+        myNewArr:[]
     }
   }
+  
   static navigationOptions = {
     title: 'Dashboard',
-    
   };
 
   componentWillMount(){
@@ -36,20 +38,25 @@ export class UserList extends Component {
 
 baseurl="http://192.168.12.39:7000/api/" 
 getUserList= async (token)=>{
-    try { 
-        let response = await fetch( this.baseurl+"v1/user/getUserList/0/1/10",{
-             method: 'GET', 
-             headers: { 
-                'x-access-token':token
-             },   
-            } );
-             let responseJson = await response.json();
-          //    alert("my response"+JSON.stringify(responseJson.success))
-          this.setState({myJson:responseJson.message.results})   
-            alert('response'+JSON.stringify(responseJson));
-              return responseJson;
-             } catch (error) {
-                  console.log(error);}
+  try { 
+      let response = await fetch( this.baseurl+"v1/user/getUserList/0/"+this.state.pageNo+"/10",{
+           method: 'GET', 
+           headers: { 
+              'x-access-token':token
+           },   
+          } );
+           let responseJson = await response.json();
+        //    alert("my response"+JSON.stringify(responseJson.success))
+         this.setState({myJson:this.state.myJson.concat(responseJson.message.results)})
+        //  this.state.myNewArr.push(this.state.myJson); 
+        //  
+   //   this.state.myJson=responseJson.message.results;
+          // this.state.pageNo++;
+          this.setState({pageNo:this.state.pageNo+1});  
+   //       alert('page'+this.state.pageNo+'  response'+JSON.stringify(responseJson));
+            return responseJson;
+           } catch (error) {
+                console.log(error);}
 
 }
   render() {
@@ -66,11 +73,15 @@ getUserList= async (token)=>{
            {/* <Text>{this.state.token}</Text> */}
             {/* <Text>{this.state.myJson}</Text> */}
                <FlatList
-                data={this.state.myJson}
+              
+                data= {this.state.myJson}  //{this.myNewArr}    //{this.state.myJson}
+                onEndReachedThreshold={.8}
+                onEndReached={()=>{this.getToken()}}  // 
                 renderItem={({item})=>{
-                     myString=JSON.stringify(item);
+                //     myString=JSON.stringify(item);
                     return(
                     <View style={styles.user}>
+                         {/* <Text>Item No: {this.state.pageNo}</Text>  */}
                         <Text>Name:{item.name.title} {item.name.first} {item.name.last}</Text>
                         <Text>Email:{item.email}</Text>
                         <Text>Gender: {item.gender}</Text>

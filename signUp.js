@@ -87,7 +87,7 @@ export class SignUp extends Component{
                   }
                   return responseJson;
                  } catch (error) {
-                      console.log(error);}
+                      alert(error);}
 
    
 }}

@@ -25,6 +25,7 @@ class tabContainer extends Component{
 }
 
 export default stackNavigation = createStackNavigator({
+  Profile:{screen:Profile},
   SignIn: { screen:  SignIn},
   SignUp: { screen: SignUp },
   MidScreen:{screen:tabContainer}

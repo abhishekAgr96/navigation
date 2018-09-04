@@ -21,7 +21,7 @@ export class SignIn extends Component{
                 <Text style={{color:'red'}}>{this.state.message}</Text>
                 <InputType placeholder="E-mail" setField={(email)=>{this.setState({email:email})}}/>
                 <InputType placeholder="Password" setField={(password)=>{this.setState({password:password})}}/>
-                <MyButton buttonText="Sign In" myFunction={()=>{alert('hiii'),this.signInApi()}}
+                <MyButton buttonText="Sign In" myFunction={()=>{this.signInApi()}}
 ></MyButton> 
                 <Text style={{marginTop:10}}>Forget your details?</Text>
                 <Button onPress={()=>{this.props.navigation.navigate('SignUp')}} title='Create a new account'></Button>
@@ -52,9 +52,10 @@ export class SignIn extends Component{
                   }),
                 });
                  let responseJson = await response.json();
-           //       alert("my response"+JSON.stringify(responseJson.token))
+             //     alert("my response"+responseJson.data.email)
                   if(responseJson.success){
                       this.storeToken(responseJson.token);
+                       this.storeEmail(responseJson.data.email)
                       this.props.navigation.navigate('MidScreen');
                   }
                   else{
@@ -62,13 +63,25 @@ export class SignIn extends Component{
                   }
                   return responseJson;
                 }
-        catch(err){}
+        catch(err){
+            alert("sign in err"+err);
+        }
     }
 
     storeToken= async(token)=>{
         try{
             await AsyncStorage.setItem('token',token);
-            alert('token stored in async storage');
+      //      alert('token stored in async storage'+token);
+        }
+        catch(error){
+            alert('err'+ err)
+        }
+
+    }
+    storeEmail= async(email)=>{
+        try{
+            await AsyncStorage.setItem('email',email);
+            alert('token stored in async storage'+token);
         }
         catch(error){
             alert('err'+ err)
